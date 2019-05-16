@@ -1,0 +1,10 @@
+#BlueJ class context
+comment0.params=
+comment0.target=Admin()
+comment1.params=
+comment1.target=java.util.ArrayList\ getEmailList()
+comment2.params=email
+comment2.target=boolean\ verifyRegister(java.lang.String)
+comment3.params=email
+comment3.target=void\ removeAccount(java.lang.String)
+numComments=4

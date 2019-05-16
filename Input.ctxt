@@ -1,0 +1,18 @@
+#BlueJ class context
+comment0.params=
+comment0.target=void\ welcomMsg()
+comment1.params=pageName
+comment1.target=void\ showPage(java.lang.String)
+comment2.params=
+comment2.target=void\ displayMainOptions()
+comment3.params=
+comment3.target=void\ displayRegisterOptions()
+comment4.params=msg
+comment4.target=java.lang.String\ getInput(java.lang.String)
+comment5.params=input
+comment5.target=boolean\ checkExit(java.lang.String)
+comment6.params=hex
+comment6.target=boolean\ emailvalidate(java.lang.String)
+comment7.params=hex
+comment7.target=boolean\ phoneValidate(java.lang.String)
+numComments=8

@@ -1,0 +1,22 @@
+#BlueJ class context
+comment0.params=
+comment0.target=Cart()
+comment1.params=
+comment1.target=java.lang.String\ getCustomerName()
+comment2.params=
+comment2.target=java.lang.String\ getRestaurantName()
+comment3.params=
+comment3.target=java.util.ArrayList\ getFoodItems()
+comment4.params=
+comment4.target=java.lang.Double\ getTotalPrice()
+comment5.params=customerName
+comment5.target=void\ setCustomerName(java.lang.String)
+comment6.params=restaurantName
+comment6.target=void\ setRestaurantName(java.lang.String)
+comment7.params=totalPrice
+comment7.target=void\ setTotalPrice(java.lang.Double)
+comment8.params=food\ num
+comment8.target=void\ addFoodItem(Food,\ int)
+comment9.params=index
+comment9.target=void\ removeFoodItem(int)
+numComments=10

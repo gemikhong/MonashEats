@@ -35,4 +35,10 @@ public class Food {
     public void setPrice(Double price) {
         this.price = price;
     }
+
+    public void display(){
+        System.out.println("Food Name: "+getName());
+        System.out.println("Description: "+getDescription());
+        System.out.println("Price: "+getPrice());
+    }
 }

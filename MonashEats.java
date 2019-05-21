@@ -1,5 +1,7 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by HUANG JIAN on 2019/5/15.
@@ -238,9 +240,9 @@ public class MonashEats {
             if(option.equals("0")){
                 researchPage();
             }
-            Integer restNo = Integer.valueOf(option);
+            Integer restNo = Input.strToInt(option);
             if(restNo >= 1 && restNo <= restNumber){
-                orderPage(restNo-1);
+                orderPage(this.restaurantList, restNo-1);
             }
             if(option.equals(restNumber+1+"")){
                 viewOderHistory();
@@ -298,22 +300,60 @@ public class MonashEats {
             String option = Input.getInput(INPUT_MSG);
             Integer restNo = Integer.valueOf(option);
             if(restNo >= 1 && restNo <= index){
-                orderPage(restNo-1);
+                orderPage(restaurantList,restNo-1);
             }
             if(option.equals(index+1+"")){
                 keepOrdering = false;
             }
         }
-       
-        
-    }
 
-    private void orderPage(int restNo){
 
     }
+
+    private void orderPage(List<Restaurant> restaurantList ,int restNo){
+        boolean leaveOrderPage = false;
+        Customer customer = (Customer) this.currentUser;
+        Restaurant restaurant = restaurantList.get(restNo);
+        Cart cart = new Cart(customer.getName(), restaurant.getName());
+        int foodNum = restaurant.getFoodListSize();
+        while (!leaveOrderPage){
+            Input.showPage("Order");
+            restaurant.displayMenu();
+            System.out.println("Press Food item No to order OR "+(foodNum +1)+" to view Cart");
+            String option = Input.getInput(INPUT_MSG);
+            Integer optionInt = Input.strToInt(option);
+            if(optionInt > 0 && optionInt <= foodNum){
+                Integer quantity = 0;
+                while (quantity == 0){
+                    String input = Input.getInput("Please enter quantity of this food item");
+                    quantity = Input.strToInt(input);
+                }
+                if(quantity>0){
+                    cart.addFoodItem(restaurant.getFoodList().get(optionInt-1),quantity);
+                }
+
+            }
+            if(optionInt == foodNum+1){
+                int size = cart.getFoodListSize();
+                if(size <= 0){
+                    System.out.println("You have not order any food yet");
+                    Input.getInput("Press keyboard to continue..");
+                }else{
+                    leaveOrderPage = cart.cartPage(cart,customer);
+                }
+            }
+
+        }
+
+
+    }
+
+
 
     private void viewOderHistory(){
-        
+        Customer customer = (Customer) this.currentUser;
+        customer.displayOrderList();
+        Input.getInput("...");
     }
 
 

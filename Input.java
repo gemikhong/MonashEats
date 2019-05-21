@@ -72,4 +72,19 @@ public class Input {
         return matcher.matches();
     }
 
+    public static Integer strToInt(String input){
+        try{
+            return Integer.valueOf(input);
+        }catch (Exception e){
+            return  -1;
+        }
+    }
+
+    public static void showPayment(){
+        System.out.println("Please Select from the following options:");
+        System.out.println("1. Cash");
+        System.out.println("2. Coupon");
+    }
+
+
 }

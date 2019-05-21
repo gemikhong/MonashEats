@@ -40,6 +40,5 @@ public class RestOwner extends User {
     }
 
     public void  registerRestaurant(){
-
     }
 }

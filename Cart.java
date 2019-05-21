@@ -1,15 +1,22 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Cart {
     private String customerName;
     private String restaurantName;
-    private ArrayList<HashMap<Food,Integer>> foodItems;
+    private HashMap<Food,Integer> foodItems;
     private Double totalPrice;
 
     public Cart() {
-        foodItems = new ArrayList<HashMap<Food,Integer>>();
+        foodItems = new HashMap<Food,Integer>();
+    }
+
+    public Cart(String customerName, String restaurantName) {
+        this.customerName = customerName;
+        this.restaurantName = restaurantName;
+        foodItems = new HashMap<Food,Integer>();
     }
 
     public String getCustomerName() {
@@ -20,8 +27,12 @@ public class Cart {
         return restaurantName;
     }
 
-    public ArrayList<HashMap<Food, Integer>> getFoodItems() {
+    public HashMap<Food, Integer> getFoodItems() {
         return foodItems;
+    }
+
+    public void setFoodItems(HashMap<Food, Integer> foodItems) {
+        this.foodItems = foodItems;
     }
 
     public Double getTotalPrice() {
@@ -37,17 +48,91 @@ public class Cart {
     }
 
     public void setTotalPrice(Double totalPrice) {
+
         this.totalPrice = totalPrice;
     }
 
+    public void finalizeTotalPrice(){
+        Double price = 0d;
+        for(Map.Entry<Food,Integer> entry: getFoodItems().entrySet()){
+            price += entry.getKey().getPrice()*entry.getValue();
+        }
+        setTotalPrice(price);
+    }
+
     public void addFoodItem(Food food, int num) {
-        Map<Food, Integer> map = new HashMap<Food, Integer>();
-        map.put(food,num);
-
-        foodItems.add((HashMap<Food, Integer>) map);
+        if (foodItems.containsKey(food)){
+            foodItems.replace(food,foodItems.get(food)+num);
+        }else {
+            foodItems.put(food,num);
+        }
     }
 
-    public void removeFoodItem(int index){
-        foodItems.remove(index);
+    public Integer getFoodListSize(){
+        return getFoodItems().size();
     }
+
+    public boolean cartPage(Cart cart, Customer customer){
+        Input.showPage("Cart");
+        List<Food> list = new ArrayList<>();
+
+        boolean flag = false;
+        while (!flag){
+            HashMap<Food, Integer> foodItems = cart.getFoodItems();
+            cart.finalizeTotalPrice();
+            System.out.println("Option 0: back to order");
+            for(Map.Entry<Food,Integer> entry: foodItems.entrySet()){
+                Food food = entry.getKey();
+                Integer num = entry.getValue();
+                list.add(food);
+                System.out.println("Item"+list.size()+" "+food.getName() + " Quantity:"+ num +" $"+food.getPrice()*num);
+            }
+            System.out.println("       Total Price: $" +cart.getTotalPrice());
+            System.out.println("Option "+(list.size() + 1) + ": place order");
+            System.out.println("Option "+(list.size() + 2) + ": delete cart");
+
+            String option = Input.getInput("Press item NO to Update or select other option");
+
+            Integer optionInt = Input.strToInt(option);
+            if(optionInt == 0){
+                flag = true;
+            }
+
+            if(optionInt == (list.size() + 2)){
+                foodItems.clear();
+                cart.setFoodItems(foodItems);
+                flag = true;
+            }
+            if(optionInt == list.size()+1){
+                cart.setFoodItems(foodItems);
+                String payMethod = "";
+                while(payMethod.isEmpty()){
+                    Input.showPayment();
+                    String payOption = Input.getInput("Please select your payment method:");
+                    Integer payInt = Input.strToInt(payOption);
+                    if(payInt == 1)
+                        payMethod = "Cash";
+                    if(payInt == 2)
+                        payMethod = "Coupon";
+                }
+                customer.addOrder(cart, payMethod);
+                return true;
+            }
+            if(optionInt>0 && optionInt<=list.size()){
+                String input = Input.getInput("Please enter the quantity you want to change to:");
+                Integer quantity = Input.strToInt(input);
+                if(quantity == 0){
+                    foodItems.remove(list.get(optionInt-1));
+                }else if(quantity > 0){
+                    foodItems.replace(list.get(optionInt-1),quantity);
+                }
+                cart.setFoodItems(foodItems);
+            }
+
+        }
+
+        return false;
+
+    }
+
 }

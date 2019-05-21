@@ -14,15 +14,16 @@ public class Restaurant {
         rating = 0d;
         minPurchase = 0;
         foodList = new ArrayList<Food>();
+        initialMenu();
         orderList = new OrderList();
     }
 
-    public Restaurant(String name, String address, Double rating, Integer minPurchase, ArrayList<Food> foodList) {
+    public Restaurant(String name, String address, Double rating, Integer minPurchase) {
         this.name = name;
         this.address = address;
         this.rating = rating;
-        this.minPurchase = minPurchase;
-        this.foodList = foodList;
+        foodList = new ArrayList<Food>();
+        initialMenu();
         orderList = new OrderList();
     }
 
@@ -66,7 +67,31 @@ public class Restaurant {
         this.minPurchase = minPurchase;
     }
 
-    public void display(){
+    public void initialMenu(){
+        setMinPurchase(10);
+        Food food1 = new Food("food1", "decription for food1", 13d);
+        Food food2 = new Food("food2", "decription for food2", 10d);
+        Food food3 = new Food("food3", "decription for food3", 15d);
+        getFoodList().add(food1);
+        getFoodList().add(food2);
+        getFoodList().add(food3);
+    }
 
+    public void displayMenu(){
+
+        System.out.println("Restaurant Name: "+ getName());
+        System.out.println("Rating: "+getRating() + "☆");
+        System.out.println("Address: "+getAddress());
+        System.out.println();
+        int i = 0;
+        for (Food food: getFoodList()){
+            i++;
+            System.out.println("Food item "+i);
+            food.display();
+        }
+    }
+    
+     public Integer getFoodListSize(){
+        return getFoodList().size();
     }
 }

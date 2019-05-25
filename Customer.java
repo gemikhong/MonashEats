@@ -3,30 +3,36 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Customer extends User {
-    private String name;
+    private String firstName;
+    private String lastName;
     private String phoneNO;
     private String address;
     private OrderList orderList;
 
     public Customer() {
         super();
-        name = "";
+        firstName = "";
+        lastName = "";
         phoneNO = "";
         address = "";
         orderList = new OrderList();
-
     }
 
-    public Customer(String name, String phoneNO, String address,String email, String password) {
+    public Customer(String firstName, String lastName, String phoneNO, String address,String email, String password) {
         super(email,password);
-        this.name = name;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.phoneNO = phoneNO;
         this.address = address;
         orderList = new OrderList();
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
+    }
+    
+    public String getLastName() {
+        return lastName;
     }
 
     public String getPhoneNO() {
@@ -41,10 +47,14 @@ public class Customer extends User {
         return orderList;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
-
+    
+     public void setLastName(String lasstName) {
+        this.lastName = lastName;
+    }
+    
     public void setPhoneNO(String phoneNO) {
         this.phoneNO = phoneNO;
     }
@@ -67,7 +77,7 @@ public class Customer extends User {
         getOrderList().addOrder(order);
     }
 
-    public void displayOrderList(){
+    public void showOrderList(){
         ArrayList<Order> orderList = getOrderList().getOrderList();
         int item = 0;
         for(Order order: orderList){
@@ -76,6 +86,8 @@ public class Customer extends User {
                     "order time: "+new SimpleDateFormat("dd/MM/yyyy").format(order.getOrderTime())+ 
                     " Rating: "+order.isRateStatus());
         }
+        
+        
     }
 
 }

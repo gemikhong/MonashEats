@@ -72,14 +72,17 @@ public class Cart {
     public Integer getFoodListSize(){
         return getFoodItems().size();
     }
+
     public void setRestId(int restNo)
     {
         this.restId = restNo;
     }
+
     public int getRestId()
     {
         return restId;
     }
+
     public boolean cartPage(Cart cart, Customer customer){
         Input.showPage("Cart");
         List<Food> list = new ArrayList<>();
@@ -89,7 +92,7 @@ public class Cart {
             HashMap<Food, Integer> foodItems = cart.getFoodItems();
             cart.finalizeTotalPrice();
             System.out.println("Option 0: back to order");
-    
+
             showFoodItems(foodItems,list);
             System.out.println("       Total Price: $" +cart.getTotalPrice());
             System.out.println("Option "+(list.size() + 1) + ": place order");
@@ -108,19 +111,30 @@ public class Cart {
                 flag = true;
             }
             if(optionInt == list.size()+1){
-                cart.setFoodItems(foodItems);
-                String payMethod = "";
-                while(payMethod.isEmpty()){
-                    Input.showPayment();
-                    String payOption = Input.getInput("Please select your payment method:");
-                    Integer payInt = Input.strToInt(payOption);
-                    if(payInt == 1)
-                        payMethod = "Cash";
-                    if(payInt == 2)
-                        payMethod = "Coupon";
+                if(cart.getTotalPrice() <= 600 && cart.getTotalPrice() > 10 )
+                {
+                    cart.setFoodItems(foodItems);
+                    String payMethod = "";
+                    while(payMethod.isEmpty()){
+                        Input.showPayment();
+                        String payOption = Input.getInput("Please select your payment method:");
+                        Integer payInt = Input.strToInt(payOption);
+                        if(payInt == 1)
+                            payMethod = "Cash";
+                        if(payInt == 2)
+                            payMethod = "Coupon";
+                    }
+                    customer.addOrder(cart, payMethod);
+                    return true;
+
                 }
-                customer.addOrder(cart, payMethod);
-                return true;
+                else
+                {
+                    System.out.println("The Total Order Price cant be above AUD$ 600 and cannot be below AUD$ 10");
+                    Input.getInput("Press any key to continue...");
+                    list = new ArrayList<>();
+                }
+
             }
             if(optionInt>0 && optionInt<=list.size()){
                 String input = Input.getInput("Please enter the quantity you want to change to:");
@@ -138,15 +152,15 @@ public class Cart {
         return false;
 
     }
-    
+
     public void showFoodItems(HashMap<Food, Integer> foodItems,List<Food> list)
     {
         for(Map.Entry<Food,Integer> entry: foodItems.entrySet()){
-                Food food = entry.getKey();
-                Integer num = entry.getValue();
-                list.add(food);
-                System.out.println("Item"+list.size()+" "+food.getName() + " Quantity:"+ num +" $"+food.getPrice()*num);
-            }
+            Food food = entry.getKey();
+            Integer num = entry.getValue();
+            list.add(food);
+            System.out.println("Item"+list.size()+" "+food.getName() + " Quantity:"+ num +" $"+food.getPrice()*num);
+        }
     }
 
 }

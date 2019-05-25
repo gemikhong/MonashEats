@@ -30,7 +30,7 @@ public class Customer extends User {
     public String getFirstName() {
         return firstName;
     }
-    
+
     public String getLastName() {
         return lastName;
     }
@@ -50,11 +50,11 @@ public class Customer extends User {
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
-    
-     public void setLastName(String lasstName) {
+
+    public void setLastName(String lasstName) {
         this.lastName = lastName;
     }
-    
+
     public void setPhoneNO(String phoneNO) {
         this.phoneNO = phoneNO;
     }
@@ -87,10 +87,8 @@ public class Customer extends User {
                 "order time: "+new SimpleDateFormat("dd/MM/yyyy").format(order.getOrderTime())+ 
                 " Rating: "+order.isRateStatus());
         }
-        
-        
-    }
 
+    }
     public int[] getOrder(int orderIndex){
         Boolean valid = false;
         ArrayList<Order> orderList = getOrderList().getOrderList();
@@ -98,33 +96,57 @@ public class Customer extends User {
         order.display();
         showRatingOption();
         int[] rating= null;
-        
-        while(!valid)
+        if(!order.isRateStatus())
         {
-           String option = Input.getInput("Enter your option");
-            if (option.equals("1"))
+                     
+            while(!valid)
             {
-                String foodRate = Input.getInput("Please Rate Food ( 1-5 )");
-                int foodRating = Input.strToInt(foodRate);
-                order.setRateFood(foodRating);
-                String deliveryRate = Input.getInput("Please Rate Delivery ( 1-5 )");
-                int deliveryRating = Input.strToInt(deliveryRate);
-                order.setRateDelivery(deliveryRating);
-                rating = new int[]{foodRating,deliveryRating,order.getRestId()};
-                order.setRateStatus(true);                      
-                valid = true;
-           }
-           if(option.equals("2"))
-           {
-               valid = true;
+                String option = Input.getInput("Enter your option");
+                if (option.equals("1"))
+                {
+                    int foodRating = 0;
+                    while(true)
+                    {
+                        String foodRate = Input.getInput("Please Rate Food ( 1-5 )");
+                        foodRating = Input.strToInt(foodRate);
+                        if(foodRating >=0 && foodRating <= 5 )
+                        {
+                            break;
+                        }
+                    }
+                    int deliveryRating = 0;
+                    while(true)
+                    {
+                        String deliveryRate = Input.getInput("Please Rate Delivery ( 1-5 )");
+                        deliveryRating = Input.strToInt(deliveryRate);
+                        if(deliveryRating >=0 && deliveryRating <= 5 )
+                        {
+                            break;
+                        }
+                    }
+                    order.setRateFood(foodRating);                
+                    order.setRateDelivery(deliveryRating);
+                    rating = new int[]{foodRating,deliveryRating,order.getRestId()};
+                    order.setRateStatus(true);                      
+                    valid = true;
+                }
+                if(option.equals("2"))
+                {
+                    valid = true;
+                }
+
             }
+
+        }
+        else
+        {
+            System.out.println("This Order has alreay been Rated!!!!");
+            Input.getInput("Press any key to continue....");
             
         }
-  
-        return rating; 
-        
-    }
 
+        return rating; 
+    }
     public static void showRatingOption(){
         System.out.println("Please Select from the following options:");
         System.out.println("1. Rate Order");

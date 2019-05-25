@@ -338,7 +338,7 @@ public class MonashEats {
         boolean leaveOrderPage = false;
         Customer customer = (Customer) this.currentUser;
         Restaurant restaurant = restaurantList.get(restNo);
-        Cart cart = new Cart(customer.getName(), restaurant.getName());
+        Cart cart = new Cart(customer.getFirstName()+" "+customer.getLastName(), restaurant.getName());
         cart.setRestId(restNo);
         int foodNum = restaurant.getFoodListSize();
         while (!leaveOrderPage){
@@ -382,7 +382,7 @@ public class MonashEats {
     private void viewOrderHistory(){
         Customer customer = (Customer) this.currentUser;
         Input.showPage("Order History");
-        customer.displayOrderList();
+        customer.showOrderList();
         String orderInput = Input.getInput(INPUT_MSG);
         int orderSelected = Input.strToInt(orderInput)-1;
         Input.showPage("Order Detail");

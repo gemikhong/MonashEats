@@ -8,6 +8,7 @@ public class Cart {
     private String restaurantName;
     private HashMap<Food,Integer> foodItems;
     private Double totalPrice;
+    private int restId;
 
     public Cart() {
         foodItems = new HashMap<Food,Integer>();
@@ -71,7 +72,14 @@ public class Cart {
     public Integer getFoodListSize(){
         return getFoodItems().size();
     }
-
+    public void setRestId(int restNo)
+    {
+        this.restId = restNo;
+    }
+    public int getRestId()
+    {
+        return restId;
+    }
     public boolean cartPage(Cart cart, Customer customer){
         Input.showPage("Cart");
         List<Food> list = new ArrayList<>();
@@ -81,12 +89,8 @@ public class Cart {
             HashMap<Food, Integer> foodItems = cart.getFoodItems();
             cart.finalizeTotalPrice();
             System.out.println("Option 0: back to order");
-            for(Map.Entry<Food,Integer> entry: foodItems.entrySet()){
-                Food food = entry.getKey();
-                Integer num = entry.getValue();
-                list.add(food);
-                System.out.println("Item"+list.size()+" "+food.getName() + " Quantity:"+ num +" $"+food.getPrice()*num);
-            }
+    
+            showFoodItems(foodItems,list);
             System.out.println("       Total Price: $" +cart.getTotalPrice());
             System.out.println("Option "+(list.size() + 1) + ": place order");
             System.out.println("Option "+(list.size() + 2) + ": delete cart");
@@ -133,6 +137,16 @@ public class Cart {
 
         return false;
 
+    }
+    
+    public void showFoodItems(HashMap<Food, Integer> foodItems,List<Food> list)
+    {
+        for(Map.Entry<Food,Integer> entry: foodItems.entrySet()){
+                Food food = entry.getKey();
+                Integer num = entry.getValue();
+                list.add(food);
+                System.out.println("Item"+list.size()+" "+food.getName() + " Quantity:"+ num +" $"+food.getPrice()*num);
+            }
     }
 
 }

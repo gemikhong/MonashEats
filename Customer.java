@@ -64,6 +64,7 @@ public class Customer extends User {
         order.setOrderStatus("finished");
         order.setPayMethod(payMethod);
         order.setRateStatus(false);
+        order.setRestId(cart.getRestId());
         getOrderList().addOrder(order);
     }
 
@@ -72,10 +73,50 @@ public class Customer extends User {
         int item = 0;
         for(Order order: orderList){
             item++;
-            System.out.println("order"+item+" "+
-                    "order time: "+new SimpleDateFormat("dd/MM/yyyy").format(order.getOrderTime())+ 
-                    " Rating: "+order.isRateStatus());
+            System.out.println(item+"."+"  "+"order "+item+" "+
+                "order time: "+new SimpleDateFormat("dd/MM/yyyy").format(order.getOrderTime())+ 
+                " Rating: "+order.isRateStatus());
         }
     }
 
+    public int[] getOrder(int orderIndex){
+        Boolean valid = false;
+        ArrayList<Order> orderList = getOrderList().getOrderList();
+        Order order = orderList.get(orderIndex);
+        order.display();
+        showRatingOption();
+        int[] rating= null;
+        
+        while(!valid)
+        {
+                  String option = Input.getInput("Enter your option");
+            if (option.equals("1"))
+            {
+                String foodRate = Input.getInput("Please Rate Food ( 1-5 )");
+                int foodRating = Input.strToInt(foodRate);
+                order.setRateFood(foodRating);
+                String deliveryRate = Input.getInput("Please Rate Delivery ( 1-5 )");
+                int deliveryRating = Input.strToInt(deliveryRate);
+                order.setRateDelivery(deliveryRating);
+                rating = new int[]{foodRating,deliveryRating,order.getRestId()};
+                order.setRateStatus(true);                      
+                valid = true;
+           }
+           if(option.equals("2"))
+           {
+               valid = true;
+            }
+            
+        }
+  
+        return rating; 
+        
+    }
+
+    public static void showRatingOption(){
+        System.out.println("Please Select from the following options:");
+        System.out.println("1. Rate Order");
+        System.out.println("2. Go Back");
+    }
 }
+

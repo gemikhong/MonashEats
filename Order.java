@@ -1,4 +1,7 @@
 import java.util.Date;
+import java.util.List;
+import java.util.HashMap;
+import java.util.ArrayList;
 
 public class Order extends Cart {
     private Date orderTime;
@@ -70,6 +73,11 @@ public class Order extends Cart {
     }
 
     public void display(){
-
+     System.out.println("Restaurant:  "+getRestaurantName());
+     System.out.println("Order Time: "+ getOrderTime());
+     System.out.println("Delivery Time: "+ getDeliveryTime());
+     HashMap<Food, Integer> foodItems = getFoodItems();
+     List<Food> list = new ArrayList<>();
+     showFoodItems(foodItems,list);
     }
 }

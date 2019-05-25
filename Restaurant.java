@@ -94,4 +94,9 @@ public class Restaurant {
      public Integer getFoodListSize(){
         return getFoodList().size();
     }
+    public void calculateRating(int receivedFoodRating,int receivedDeliveryRating)
+    {
+        double newRating = (((receivedFoodRating + receivedDeliveryRating)/2)+ getRating())/2 ;
+        setRating(newRating);
+    }
 }

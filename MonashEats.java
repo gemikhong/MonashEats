@@ -315,6 +315,7 @@ public class MonashEats {
         Customer customer = (Customer) this.currentUser;
         Restaurant restaurant = restaurantList.get(restNo);
         Cart cart = new Cart(customer.getName(), restaurant.getName());
+        cart.setRestId(restNo);
         int foodNum = restaurant.getFoodListSize();
         while (!leaveOrderPage){
             Input.showPage("Order");
@@ -352,9 +353,25 @@ public class MonashEats {
 
     private void viewOderHistory(){
         Customer customer = (Customer) this.currentUser;
+        Input.showPage("Order History");
         customer.displayOrderList();
-        Input.getInput("...");
+        String orderInput = Input.getInput(INPUT_MSG);
+        int orderSelected = Input.strToInt(orderInput)-1;
+        Input.showPage("Order Detail");
+        int[] ratingReceived = customer.getOrder(orderSelected);
+        if(ratingReceived != null)
+        {
+            int foodRating = ratingReceived[0];
+            int deliveryRating = ratingReceived[1];
+            int restId = ratingReceived[2];
+            System.out.println("restId: "+restId);
+            Restaurant restaurant = restaurantList.get(restId);
+            restaurant.calculateRating(foodRating,deliveryRating);
+            
+        }
+        
+        
     }
-
+     
 
 }

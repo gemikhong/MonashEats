@@ -80,11 +80,11 @@ public class Input {
         }
     }
 
-    public static void showPayment(){
+    public static void showPayment()
+    {
         System.out.println("Please Select from the following options:");
         System.out.println("1. Cash");
         System.out.println("2. Coupon");
     }
-
-
 }
+

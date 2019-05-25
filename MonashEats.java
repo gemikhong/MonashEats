@@ -73,7 +73,7 @@ public class MonashEats {
                 case "4":
                     isExit = true;
                     System.out.print('\u000C');
-                    System.out.print("Exit successfully!");
+                    System.exit(0);
                     break;
                 default:
                     System.out.print('\u000C');
@@ -381,7 +381,14 @@ public class MonashEats {
 
     private void viewOrderHistory(){
         Customer customer = (Customer) this.currentUser;
-        Input.showPage("Order History");
+        if(customer.getOrderList().getOrderList().size() <= 0)
+        {
+            System.out.println("No Orders to Display");
+            Input.getInput("Press KeyBoard to Continue...");
+        }
+        else
+        {
+                 Input.showPage("Order History");
         customer.showOrderList();
         String orderInput = Input.getInput(INPUT_MSG);
         int orderSelected = Input.strToInt(orderInput)-1;
@@ -397,6 +404,8 @@ public class MonashEats {
             restaurant.calculateRating(foodRating,deliveryRating);
             
         }
+        }
+   
         
         
     }

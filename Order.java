@@ -76,8 +76,6 @@ public class Order extends Cart {
      System.out.println("Restaurant:  "+getRestaurantName());
      System.out.println("Order Time: "+ getOrderTime());
      System.out.println("Delivery Time: "+ getDeliveryTime());
-     HashMap<Food, Integer> foodItems = getFoodItems();
-     List<Food> list = new ArrayList<>();
-     showFoodItems(foodItems,list);
+     showFoodItems(getFoodItems(), new ArrayList<>());
     }
 }

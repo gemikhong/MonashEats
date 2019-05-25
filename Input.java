@@ -3,16 +3,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Created by HUANG JIAN on 2019/5/15.
+ * Created by HUANG JIAN on May 15, 2019
+ * Edited by NHAT KHONG (Gemi) on May 25, 2019: move the validations to a separate class
  */
 public class Input {
-
-    private static final String EMAIL_PATTERN =
-            "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-
-    private static final String PHONE_PATTERN
-            = "(?:\\+?61)?(?:\\(0\\)[23478]|\\(?0?[23478]\\)?)\\d{8}";
-
     private static Scanner console = new Scanner(System.in);
 
     public static void welcomMsg(){
@@ -48,8 +42,7 @@ public class Input {
         System.out.println("Press 3 to Back");
         System.out.println();
     }
-
-
+    
     public static String getInput(String msg)
     {
         System.out.println(msg);
@@ -58,18 +51,6 @@ public class Input {
 
     public static boolean checkExit(String input){
         return input.equals("-1")? true : false;
-    }
-
-    public static boolean emailvalidate(String hex) {
-        Pattern pattern = Pattern.compile(EMAIL_PATTERN);
-        Matcher matcher = pattern.matcher(hex);
-        return matcher.matches();
-    }
-
-    public static boolean phoneValidate(String hex){
-        Pattern pattern = Pattern.compile(PHONE_PATTERN);
-        Matcher matcher = pattern.matcher(hex);
-        return matcher.matches();
     }
 
     public static Integer strToInt(String input){

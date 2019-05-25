@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.target=MonashEats
-comment0.text=\r\n\ Created\ by\ HUANG\ JIAN\ on\ 2019/5/15.\r\n
+comment0.text=\r\n\ Created\ by\ HUANG\ JIAN\ on\ May\ 15,\ 2019\r\n\ Edited\ by\ NHAT\ KHONG\ (Gemi)\ on\ May\ 25,\ 2019\:\ move\ the\ validations\ to\ a\ separate\ class\r\n
 comment1.params=
 comment1.target=void\ initiateMoashEats()
 comment10.params=
@@ -9,8 +9,10 @@ comment11.params=restaurantList
 comment11.target=void\ displayFiltedRestList(java.util.List)
 comment12.params=restaurantList\ restNo
 comment12.target=void\ orderPage(java.util.List,\ int)
-comment13.params=
-comment13.target=void\ viewOderHistory()
+comment13.params=newEmail
+comment13.target=boolean\ existedEmail(java.lang.String)
+comment14.params=
+comment14.target=void\ viewOrderHistory()
 comment2.params=
 comment2.target=MonashEats()
 comment3.params=
@@ -27,4 +29,4 @@ comment8.params=
 comment8.target=java.lang.Integer\ displayHomeOptions()
 comment9.params=restaurantList
 comment9.target=java.lang.Integer\ displayRestList(java.util.List)
-numComments=14
+numComments=15

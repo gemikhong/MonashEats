@@ -4,7 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by HUANG JIAN on 2019/5/15.
+ * Created by HUANG JIAN on May 15, 2019
+ * Edited by NHAT KHONG (Gemi) on May 25, 2019: move the validations to a separate class
  */
 public class MonashEats {
     private List<User> userList;
@@ -15,8 +16,15 @@ public class MonashEats {
 
     private void initiateMoashEats(){
         this.userList = new ArrayList<User>();
-        Customer eric = new Customer("eric", "0434665333", "7 park ave", "jhua074@gmail.com", "123456");
+        Customer eric = new Customer("Eric", "Huang", "0434665333", "7 park ave", "jhua074@gmail.com", "123456");
         userList.add(eric);
+        
+        Customer girish = new Customer("Girish", "Lion", "0434665333", "7 park ave", "girish@gmail.com", "654321");
+        userList.add(girish);
+        
+        RestOwner gemi = new RestOwner("gemi@gmail.com", "0434665333", "Gemi", "Kong", "654321");
+        userList.add(gemi);
+        
         this.restaurantList = new ArrayList<Restaurant>();
         Restaurant r1 = new Restaurant();
         r1.setName("restaurant1");
@@ -45,8 +53,6 @@ public class MonashEats {
     }
 
     public void startApp(){
-
-
 
         boolean isExit = false;
         while (!isExit){
@@ -106,7 +112,8 @@ public class MonashEats {
     }
 
     private void createAccount(String accountType){
-        String name = "";
+        String firstName = "";
+        String lastName = "";
         String email = "";
         String phoneNo = "";
         String address = "";
@@ -114,32 +121,46 @@ public class MonashEats {
         String pwd = "";
         String alertMsg = "";
 
-        while(name.isEmpty()){
-            alertMsg = "Please enter your Name:";
-            name = Input.getInput(alertMsg);
-            if(Input.checkExit(name)){
+        while(firstName.isEmpty()){
+            alertMsg = "Please enter your first name:";
+            firstName = Input.getInput(alertMsg);
+            if(Input.checkExit(firstName)){
                 return;
             }
         }
+        
+        while(lastName.isEmpty()){
+            alertMsg = "Please enter your last name:";
+            lastName = Input.getInput(alertMsg);
+            if(Input.checkExit(lastName)){
+                return;
+            }
+        }
+        
         boolean isEmailValid = false;
         alertMsg = "Please enter your Email:";
         while (!isEmailValid){
             email = Input.getInput(alertMsg);
-            if(!Input.emailvalidate(email)){
-                alertMsg = "invalid email,Enter again";
-            }else {
+            if(!Validation.validEmail(email)){
+                alertMsg = "Invalid email, Please enter again";
+            }
+            else if(existedEmail(email)){
+                alertMsg = "Email existed. Please use another email";
+            }
+            else {
                 isEmailValid = true;
             }
             if(Input.checkExit(email)){
                 return;
             }
         }
+        
         boolean isPhoneNoValid = false;
         alertMsg = "Please enter your phone number:";
         while (!isPhoneNoValid){
             phoneNo = Input.getInput(alertMsg);
-            if(!Input.phoneValidate(phoneNo)){
-                alertMsg = "invalid phone no! Enter again!";
+            if(!Validation.validPhoneNo(phoneNo)){
+                alertMsg = "Invalid phone number, Please enter again!";
             }else {
                 isPhoneNoValid = true;
             }
@@ -147,13 +168,14 @@ public class MonashEats {
                 return;
             }
         }
+        
         if(accountType.equals("C")){
             boolean isAddressValid = false;
             alertMsg = "Please enter your address:";
             while (!isAddressValid){
                 address = Input.getInput(alertMsg);
-                if(address.length()==0){
-                    alertMsg = "Invalid address, Enter again!";
+                if(!Validation.validAddress(address)){
+                    alertMsg = "Invalid address, Please enter again!";
                 }else {
                     isAddressValid = true;
                 }
@@ -162,12 +184,13 @@ public class MonashEats {
                 }
             }
         }
+        
         boolean isPasswdValid = false;
         alertMsg = "Please enter your Password:";
         while (!isPasswdValid){
             passwd = Input.getInput(alertMsg);
-            if(passwd.length()<6){
-                alertMsg = "Password should be at least 6 characters! Enter again!";
+            if(!Validation.validPassword(passwd)){
+                alertMsg = "Invalid password, Please enter !";
             }else{
                 isPasswdValid = true;
             }
@@ -175,30 +198,33 @@ public class MonashEats {
                 return;
             }
         }
+        
         boolean isPwdValid = false;
         alertMsg = "Please confirm your Password:";
         while (!isPwdValid){
             pwd = Input.getInput(alertMsg);
             if(!passwd.equals(pwd)){
-                alertMsg = "2 Passwords are not matched!Enter again";
+                alertMsg = "Confirm password not matched, Please enter again";
             }else{
                 isPwdValid = true;
             }
-                if(Input.checkExit(pwd)){
-                    return;
-                }
+            if(Input.checkExit(pwd)){
+                return;
+            }
         }
+        
         if(accountType.equals("C")){
-            Customer customer = new Customer(name, phoneNo, address, email, passwd);
+            Customer customer = new Customer(firstName, lastName, phoneNo, address, email, passwd);
             this.userList.add(customer);
 
         }
+        
         if(accountType.equals("R")){
-            RestOwner restOwner = new RestOwner(email, passwd, name, phoneNo);
+            RestOwner restOwner = new RestOwner(email, passwd, firstName, lastName, phoneNo);
             this.userList.add(restOwner);
         }
+        
         login();
-
     }
 
     private void login(){
@@ -223,12 +249,10 @@ public class MonashEats {
                 }
             }
             if(isLogin == false){
-                System.out.println("email or password not correct!");
+                System.out.println("Email or password not correct!");
                 Input.getInput("Press keyboard to continue...");
             }
-
         }
-
     }
 
     private void goHomePage(){
@@ -245,7 +269,7 @@ public class MonashEats {
                 orderPage(this.restaurantList, restNo-1);
             }
             if(option.equals(restNumber+1+"")){
-                viewOderHistory();
+                viewOrderHistory();
             }
             if(option.equals(restNumber+2+"")){
                 this.currentUser = null;
@@ -343,15 +367,19 @@ public class MonashEats {
                     leaveOrderPage = cart.cartPage(cart,customer);
                 }
             }
-
         }
-
-
     }
 
+    private boolean existedEmail(String newEmail){
+        for(User u:userList){
+            if(newEmail.equals(u.getEmail())){
+                return true;
+            }
+        }
+        return false;
+    }
 
-
-    private void viewOderHistory(){
+    private void viewOrderHistory(){
         Customer customer = (Customer) this.currentUser;
         Input.showPage("Order History");
         customer.displayOrderList();

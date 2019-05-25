@@ -1,10 +1,8 @@
 #BlueJ class context
 comment0.target=Input
-comment0.text=\r\n\ Created\ by\ HUANG\ JIAN\ on\ 2019/5/15.\r\n
+comment0.text=\r\n\ Created\ by\ HUANG\ JIAN\ on\ May\ 15,\ 2019\r\n\ Edited\ by\ NHAT\ KHONG\ (Gemi)\ on\ May\ 25,\ 2019\:\ move\ the\ validations\ to\ a\ separate\ class\r\n
 comment1.params=
 comment1.target=void\ welcomMsg()
-comment10.params=
-comment10.target=void\ showPayment()
 comment2.params=pageName
 comment2.target=void\ showPage(java.lang.String)
 comment3.params=
@@ -15,10 +13,8 @@ comment5.params=msg
 comment5.target=java.lang.String\ getInput(java.lang.String)
 comment6.params=input
 comment6.target=boolean\ checkExit(java.lang.String)
-comment7.params=hex
-comment7.target=boolean\ emailvalidate(java.lang.String)
-comment8.params=hex
-comment8.target=boolean\ phoneValidate(java.lang.String)
-comment9.params=input
-comment9.target=java.lang.Integer\ strToInt(java.lang.String)
-numComments=11
+comment7.params=input
+comment7.target=java.lang.Integer\ strToInt(java.lang.String)
+comment8.params=
+comment8.target=void\ showPayment()
+numComments=9

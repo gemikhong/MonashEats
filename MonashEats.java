@@ -18,13 +18,13 @@ public class MonashEats {
         this.userList = new ArrayList<User>();
         Customer eric = new Customer("Eric", "Huang", "0434665333", "7 park ave", "jhua074@gmail.com", "123456");
         userList.add(eric);
-        
+
         Customer girish = new Customer("Girish", "Lion", "0434665333", "7 park ave", "girish@gmail.com", "654321");
         userList.add(girish);
-        
+
         RestOwner gemi = new RestOwner("gemi@gmail.com", "0434665333", "Gemi", "Kong", "654321");
         userList.add(gemi);
-        
+
         this.restaurantList = new ArrayList<Restaurant>();
         Restaurant r1 = new Restaurant();
         r1.setName("restaurant1");
@@ -61,24 +61,24 @@ public class MonashEats {
             String option = Input.getInput(INPUT_MSG);
             switch (option){
                 case "1":
-                    register();
-                    break;
+                register();
+                break;
                 case "2":
-                    login();
-                    break;
+                login();
+                break;
                 case "3":
-                    displayRestList(this.restaurantList);
-                    Input.getInput("Press keyboard to back");
-                    break;
+                displayRestList(this.restaurantList);
+                Input.getInput("Press keyboard to back");
+                break;
                 case "4":
-                    isExit = true;
-                    System.out.print('\u000C');
-                    System.exit(0);
-                    break;
+                isExit = true;
+                System.out.print('\u000C');
+                System.exit(0);
+                break;
                 default:
-                    System.out.print('\u000C');
-                    System.out.println("Please enter valid option number!");
-                    break;
+                System.out.print('\u000C');
+                System.out.println("Please enter valid option number!");
+                break;
             }
         }
 
@@ -92,21 +92,21 @@ public class MonashEats {
             String option = Input.getInput(INPUT_MSG);
             switch (option){
                 case "1":
-                    createAccount("C");
-                    keepRegister = false;
-                    break;
+                createAccount("C");
+                keepRegister = false;
+                break;
                 case "2":
-                    createAccount("R");
-                    keepRegister = false;
-                    break;
+                createAccount("R");
+                keepRegister = false;
+                break;
                 case "3":
-                    keepRegister = false;
-                    break;
+                keepRegister = false;
+                break;
                 default:
-                    System.out.print('\u000C');
-                    System.out.println("Please enter valid option number!");
-                    break;
-        }
+                System.out.print('\u000C');
+                System.out.println("Please enter valid option number!");
+                break;
+            }
 
         }
     }
@@ -128,7 +128,7 @@ public class MonashEats {
                 return;
             }
         }
-        
+
         while(lastName.isEmpty()){
             alertMsg = "Please enter your last name:";
             lastName = Input.getInput(alertMsg);
@@ -136,7 +136,7 @@ public class MonashEats {
                 return;
             }
         }
-        
+
         boolean isEmailValid = false;
         alertMsg = "Please enter your Email:";
         while (!isEmailValid){
@@ -154,7 +154,7 @@ public class MonashEats {
                 return;
             }
         }
-        
+
         boolean isPhoneNoValid = false;
         alertMsg = "Please enter your phone number:";
         while (!isPhoneNoValid){
@@ -168,7 +168,7 @@ public class MonashEats {
                 return;
             }
         }
-        
+
         if(accountType.equals("C")){
             boolean isAddressValid = false;
             alertMsg = "Please enter your address:";
@@ -184,7 +184,7 @@ public class MonashEats {
                 }
             }
         }
-        
+
         boolean isPasswdValid = false;
         alertMsg = "Please enter your Password:";
         while (!isPasswdValid){
@@ -198,7 +198,7 @@ public class MonashEats {
                 return;
             }
         }
-        
+
         boolean isPwdValid = false;
         alertMsg = "Please confirm your Password:";
         while (!isPwdValid){
@@ -212,18 +212,18 @@ public class MonashEats {
                 return;
             }
         }
-        
+
         if(accountType.equals("C")){
             Customer customer = new Customer(firstName, lastName, phoneNo, address, email, passwd);
             this.userList.add(customer);
 
         }
-        
+
         if(accountType.equals("R")){
             RestOwner restOwner = new RestOwner(email, passwd, firstName, lastName, phoneNo);
             this.userList.add(restOwner);
         }
-        
+
         login();
     }
 
@@ -276,7 +276,6 @@ public class MonashEats {
                 leaveHomePage = true;
             }
         }
-
 
     }
 
@@ -331,7 +330,6 @@ public class MonashEats {
             }
         }
 
-
     }
 
     private void orderPage(List<Restaurant> restaurantList ,int restNo){
@@ -359,7 +357,7 @@ public class MonashEats {
 
             }
             if(optionInt == foodNum+1){
-                int size = cart.getFoodListSize();
+                int size = cart.getFoodItems().size();
                 if(size <= 0){
                     System.out.println("You have not order any food yet");
                     Input.getInput("Press keyboard to continue..");
@@ -388,27 +386,32 @@ public class MonashEats {
         }
         else
         {
-                 Input.showPage("Order History");
-        customer.showOrderList();
-        String orderInput = Input.getInput(INPUT_MSG);
-        int orderSelected = Input.strToInt(orderInput)-1;
-        Input.showPage("Order Detail");
-        int[] ratingReceived = customer.getOrder(orderSelected);
-        if(ratingReceived != null)
-        {
-            int foodRating = ratingReceived[0];
-            int deliveryRating = ratingReceived[1];
-            int restId = ratingReceived[2];
-            System.out.println("restId: "+restId);
-            Restaurant restaurant = restaurantList.get(restId);
-            restaurant.calculateRating(foodRating,deliveryRating);
-            
-        }
-        }
-   
-        
-        
-    }
-     
 
+            while(true){
+                Input.showPage("Order History");
+                customer.showOrderList();
+                System.out.println("Option 0: Go Back");
+                String orderInput = Input.getInput(INPUT_MSG);
+                int orderSelected = Input.strToInt(orderInput);
+                if(orderSelected == 0){
+                    return;
+                }
+                if(orderSelected > 0 && orderSelected <=customer.getOrderList().getOrderList().size() ){
+                    Input.showPage("Order Detail");
+                    int[] ratingReceived = customer.getOrder(orderSelected-1);
+                    if(ratingReceived != null)
+                    {
+                        int foodRating = ratingReceived[0];
+                        int deliveryRating = ratingReceived[1];
+                        int restId = ratingReceived[2];
+                        System.out.println("restId: "+restId);
+                        Restaurant restaurant = restaurantList.get(restId);
+                        restaurant.calculateRating(foodRating,deliveryRating);
+                        break;
+                    }
+                }
+            }
+
+        }
+    }
 }

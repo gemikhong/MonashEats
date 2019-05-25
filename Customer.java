@@ -101,7 +101,7 @@ public class Customer extends User {
         
         while(!valid)
         {
-                  String option = Input.getInput("Enter your option");
+           String option = Input.getInput("Enter your option");
             if (option.equals("1"))
             {
                 String foodRate = Input.getInput("Please Rate Food ( 1-5 )");

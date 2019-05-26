@@ -1,16 +1,22 @@
 import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 import java.util.HashMap;
 import java.util.ArrayList;
 
+/**
+ * Created by HUANG JIAN on May 15, 2019
+ * Edited by NHAT KHONG (Gemi) on May 26, 2019: add displayReceipt() method
+ */
+
 public class Order extends Cart {
-    private Date orderTime;
     private String orderStatus;
+    private Date orderTime;
     private Date deliveryTime;
     private String payMethod;
     private int rateFood;
     private int rateDelivery;
-    private boolean rateStatus;
+    private String rateStatus;
 
     public Order() {
         super();
@@ -40,7 +46,7 @@ public class Order extends Cart {
         return rateDelivery;
     }
 
-    public boolean isRateStatus() {
+    public String getRateStatus() {
         return rateStatus;
     }
 
@@ -68,14 +74,33 @@ public class Order extends Cart {
         this.rateDelivery = rateDelivery;
     }
 
-    public void setRateStatus(boolean rateStatus) {
+    public void setRateStatus(String rateStatus) {
         this.rateStatus = rateStatus;
     }
-
-    public void display(){
-     System.out.println("Restaurant:  "+getRestaurantName());
-     System.out.println("Order Time: "+ getOrderTime());
-     System.out.println("Delivery Time: "+ getDeliveryTime());
-     showFoodItems(getFoodItems(), new ArrayList<>());
+    
+    public void displayOrder(){
+        if(getOrderStatus().equals("Delivered")){
+            System.out.println("Restaurant:  "+getRestaurantName());
+            System.out.println("Order Time: "+ getOrderTime());
+            System.out.println("Order Status: "+ getOrderStatus());
+            System.out.println("Delivery Time: "+ getDeliveryTime());
+            showFoodItems(getFoodItems(), new ArrayList<>());
+        }
+        
+        else {
+            System.out.println("Restaurant:  "+getRestaurantName());
+            System.out.println("Order Time: "+ getOrderTime());
+            System.out.println("Order Status: "+ getOrderStatus());
+            System.out.println("Expected Delivery Time: "+ getDeliveryTime());
+            showFoodItems(getFoodItems(), new ArrayList<>());
+        }
+    }
+    
+    public void displayReceipt(){
+        System.out.println("Restaurant:  "+getRestaurantName());
+        System.out.println("Order Time: "+ getOrderTime());
+        showFoodItems(getFoodItems(), new ArrayList<>());
+        System.out.println("------------------------------------------------------");
+        System.out.println("Total price (GST included): "+ getTotalPrice());
     }
 }

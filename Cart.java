@@ -23,7 +23,7 @@ public class Cart {
     public String getCustomerName() {
         return customerName;
     }
-
+    
     public String getRestaurantName() {
         return restaurantName;
     }
@@ -31,36 +31,37 @@ public class Cart {
     public HashMap<Food, Integer> getFoodItems() {
         return foodItems;
     }
-
-    public void setFoodItems(HashMap<Food, Integer> foodItems) {
-        this.foodItems = foodItems;
-    }
-
+    
     public Double getTotalPrice() {
         return totalPrice;
     }
 
+    public int getRestId()
+    {
+        return restId;
+    }
+    
     public void setCustomerName(String customerName) {
         this.customerName = customerName;
     }
-
+    
     public void setRestaurantName(String restaurantName) {
         this.restaurantName = restaurantName;
     }
+    
+    public void setFoodItems(HashMap<Food, Integer> foodItems) {
+        this.foodItems = foodItems;
+    }
 
     public void setTotalPrice(Double totalPrice) {
-
         this.totalPrice = totalPrice;
     }
-
-    public void finalizeTotalPrice(){
-        Double price = 0d;
-        for(Map.Entry<Food,Integer> entry: getFoodItems().entrySet()){
-            price += entry.getKey().getPrice()*entry.getValue();
-        }
-        setTotalPrice(price);
+    
+    public void setRestId(int restNo)
+    {
+        this.restId = restNo;
     }
-
+    
     public void addFoodItem(Food food, int num) {
         if (foodItems.containsKey(food)){
             foodItems.replace(food,foodItems.get(food)+num);
@@ -69,18 +70,16 @@ public class Cart {
         }
     }
 
+    public void finalizeTotalPrice(){
+        Double totalPrice = 0d;
+        for(Map.Entry<Food,Integer> entry: getFoodItems().entrySet()){
+            totalPrice += entry.getKey().getPrice()*entry.getValue();
+        }
+        setTotalPrice(totalPrice);
+    }
+    
     public Integer getFoodListSize(){
         return getFoodItems().size();
-    }
-
-    public void setRestId(int restNo)
-    {
-        this.restId = restNo;
-    }
-
-    public int getRestId()
-    {
-        return restId;
     }
 
     public boolean cartPage(Cart cart, Customer customer){

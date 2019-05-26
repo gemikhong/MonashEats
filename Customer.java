@@ -1,6 +1,7 @@
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Calendar;
 
 public class Customer extends User {
     private String firstName;
@@ -71,9 +72,9 @@ public class Customer extends User {
         order.finalizeTotalPrice();
         order.setOrderTime(new Date());
         order.setDeliveryTime(new Date());
-        order.setOrderStatus("finished");
+        order.setOrderStatus("Processing");
         order.setPayMethod(payMethod);
-        order.setRateStatus(false);
+        order.setRateStatus("Available");
         order.setRestId(cart.getRestId());
         getOrderList().addOrder(order);
     }
@@ -81,11 +82,19 @@ public class Customer extends User {
     public void showOrderList(){
         ArrayList<Order> orderList = getOrderList().getOrderList();
         int item = 0;
-        for(Order order: orderList){
+        for(Order o: orderList){
             item++;
-            System.out.println(item+"."+"  "+"order "+item+" "+
-                "order time: "+new SimpleDateFormat("dd/MM/yyyy").format(order.getOrderTime())+ 
-                " Rating: "+order.isRateStatus());
+            if (o.getOrderStatus().equals("Delivered")){
+                System.out.println(item+"."+"  "+"order "+item+" "+
+                " order time: "+new SimpleDateFormat("dd/MM/yyyy HH:mm").format(o.getOrderTime())+ 
+                " delivery time: "+new SimpleDateFormat("dd/MM/yyyy HH:mm").format(o.getDeliveryTime())+
+                " Status: " + o.getOrderStatus() + " Rating: " + o.getRateStatus());
+            }
+            else {
+                System.out.println(item+"."+"  "+"order "+item+" "+
+                "order time: "+new SimpleDateFormat("dd/MM/yyyy").format(o.getOrderTime())+ 
+                " Status: "+o.getOrderStatus());                          
+            }
         }
 
     }
@@ -93,12 +102,11 @@ public class Customer extends User {
         Boolean valid = false;
         ArrayList<Order> orderList = getOrderList().getOrderList();
         Order order = orderList.get(orderIndex);
-        order.display();
+        order.displayOrder();
         showRatingOption();
         int[] rating= null;
-        if(!order.isRateStatus())
-        {
-                     
+        if(order.getOrderStatus().equals("Delivered") && order.getRateStatus().equals("Available"))
+        {            
             while(!valid)
             {
                 String option = Input.getInput("Enter your option");
@@ -127,7 +135,7 @@ public class Customer extends User {
                     order.setRateFood(foodRating);                
                     order.setRateDelivery(deliveryRating);
                     rating = new int[]{foodRating,deliveryRating,order.getRestId()};
-                    order.setRateStatus(true);                      
+                    order.setRateStatus("Rated");                      
                     valid = true;
                 }
                 if(option.equals("2"))
@@ -138,6 +146,14 @@ public class Customer extends User {
             }
 
         }
+        
+        else if (!order.getOrderStatus().equals("Delivered") && order.getRateStatus().equals("Available"))
+        {
+            System.out.println("This Order has not been delivered and not available for Rating!!!!");
+            Input.getInput("Press any key to continue....");
+            
+        }
+        
         else
         {
             System.out.println("This Order has alreay been Rated!!!!");

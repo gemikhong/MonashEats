@@ -16,6 +16,9 @@ public class Input {
         System.out.println("=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+");
     }
 
+    /**
+     * This class shows header for each page
+     */
     public static void showPage(String pageName){
         System.out.print('\u000C');
         System.out.println("=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+");
@@ -23,6 +26,9 @@ public class Input {
         System.out.println("=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+");
     }
 
+    /**
+     * This class shows main options in homepage
+     */
     public static void displayMainOptions()
     {
         System.out.println();
@@ -34,6 +40,9 @@ public class Input {
         System.out.println();
     }
 
+    /**
+     * This class shows main options in register page
+     */
     public static void displayRegisterOptions(){
         System.out.println();
         System.out.println("Please Select from the following options:");

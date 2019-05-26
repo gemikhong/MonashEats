@@ -5,7 +5,7 @@ import java.util.Map;
 
 /**
  * Created by HUANG JIAN on May 15, 2019
- * Edited by NHAT KHONG (Gemi) on May 25, 2019: move the validations to a separate class
+ * Edited by NHAT KHONG (Gemi) on May 25, 2019: moved the validations to a separate class, added methods for register
  */
 public class MonashEats {
     private List<User> userList;
@@ -46,6 +46,15 @@ public class MonashEats {
         restaurantList.add(r3);
         restaurantList.add(r4);
         restaurantList.add(r5);
+        
+        /**
+         * Hardcode a delivered order to test Rating function
+         */
+        girish.addOrder(new Cart(), "Cash");
+        girish.getOrderList().getOrder(0).addFoodItem(new Food("food1", "decription for food1", 13d), 3);
+        girish.getOrderList().getOrder(0).addFoodItem(new Food("food2", "decription for food2", 10d), 3);
+        girish.getOrderList().getOrder(0).setRestaurantName("restaurant1");
+        girish.getOrderList().getOrder(0).setOrderStatus("Delivered");
     }
 
     public MonashEats() {
@@ -276,7 +285,6 @@ public class MonashEats {
                 leaveHomePage = true;
             }
         }
-
     }
 
     private  Integer displayHomeOptions(){
@@ -379,8 +387,7 @@ public class MonashEats {
 
     private void viewOrderHistory(){
         Customer customer = (Customer) this.currentUser;
-        if(customer.getOrderList().getOrderList().size() <= 0)
-        {
+        if(customer.getOrderList().getOrderList().size() <= 0){
             System.out.println("No Orders to Display");
             Input.getInput("Press KeyBoard to Continue...");
         }

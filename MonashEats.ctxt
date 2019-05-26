@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.target=MonashEats
-comment0.text=\r\n\ Created\ by\ HUANG\ JIAN\ on\ May\ 15,\ 2019\r\n\ Edited\ by\ NHAT\ KHONG\ (Gemi)\ on\ May\ 25,\ 2019\:\ move\ the\ validations\ to\ a\ separate\ class\r\n
+comment0.text=\r\n\ Created\ by\ HUANG\ JIAN\ on\ May\ 15,\ 2019\r\n\ Edited\ by\ NHAT\ KHONG\ (Gemi)\ on\ May\ 25,\ 2019\:\ moved\ the\ validations\ to\ a\ separate\ class,\ added\ methods\ for\ register\r\n
 comment1.params=
 comment1.target=void\ initiateMoashEats()
 comment10.params=

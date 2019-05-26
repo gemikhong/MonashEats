@@ -79,21 +79,19 @@ public class Order extends Cart {
     }
     
     public void displayOrder(){
+        System.out.println("Restaurant:  "+getRestaurantName());
         if(getOrderStatus().equals("Delivered")){
-            System.out.println("Restaurant:  "+getRestaurantName());
-            System.out.println("Order Time: "+ getOrderTime());
-            System.out.println("Order Status: "+ getOrderStatus());
             System.out.println("Delivery Time: "+ getDeliveryTime());
-            showFoodItems(getFoodItems(), new ArrayList<>());
         }
-        
         else {
-            System.out.println("Restaurant:  "+getRestaurantName());
             System.out.println("Order Time: "+ getOrderTime());
-            System.out.println("Order Status: "+ getOrderStatus());
             System.out.println("Expected Delivery Time: "+ getDeliveryTime());
-            showFoodItems(getFoodItems(), new ArrayList<>());
         }
+        System.out.println("Order Status: "+ getOrderStatus());
+        showFoodItems(getFoodItems(), new ArrayList<>());
+        System.out.println("------------------------------------------------------");
+        finalizeTotalPrice();
+        System.out.println("Total price (GST included): "+ getTotalPrice());
     }
     
     public void displayReceipt(){
@@ -101,6 +99,7 @@ public class Order extends Cart {
         System.out.println("Order Time: "+ getOrderTime());
         showFoodItems(getFoodItems(), new ArrayList<>());
         System.out.println("------------------------------------------------------");
+        finalizeTotalPrice();
         System.out.println("Total price (GST included): "+ getTotalPrice());
     }
 }

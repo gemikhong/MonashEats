@@ -86,14 +86,13 @@ public class Customer extends User {
             item++;
             if (o.getOrderStatus().equals("Delivered")){
                 System.out.println(item+"."+"  "+"order "+item+" "+
-                " order time: "+new SimpleDateFormat("dd/MM/yyyy HH:mm").format(o.getOrderTime())+ 
                 " delivery time: "+new SimpleDateFormat("dd/MM/yyyy HH:mm").format(o.getDeliveryTime())+
                 " Status: " + o.getOrderStatus() + " Rating: " + o.getRateStatus());
             }
             else {
                 System.out.println(item+"."+"  "+"order "+item+" "+
                 "order time: "+new SimpleDateFormat("dd/MM/yyyy").format(o.getOrderTime())+ 
-                " Status: "+o.getOrderStatus());                          
+                " Status: "+o.getOrderStatus());       
             }
         }
 
@@ -103,15 +102,16 @@ public class Customer extends User {
         ArrayList<Order> orderList = getOrderList().getOrderList();
         Order order = orderList.get(orderIndex);
         order.displayOrder();
-        showRatingOption();
-        int[] rating= null;
-        if(order.getOrderStatus().equals("Delivered") && order.getRateStatus().equals("Available"))
-        {            
-            while(!valid)
-            {
-                String option = Input.getInput("Enter your option");
-                if (option.equals("1"))
-                {
+        int[] rating= null;            
+        while(!valid){
+            showRatingOption();
+            String option = Input.getInput("Enter your option");
+            if(option.equals("1")){
+                order.displayReceipt();
+                Input.getInput("Press any key to continue....");
+            }
+            else if (option.equals("2")){
+                if(order.getOrderStatus().equals("Delivered") && order.getRateStatus().equals("Available")){
                     int foodRating = 0;
                     while(true)
                     {
@@ -135,38 +135,28 @@ public class Customer extends User {
                     order.setRateFood(foodRating);                
                     order.setRateDelivery(deliveryRating);
                     rating = new int[]{foodRating,deliveryRating,order.getRestId()};
-                    order.setRateStatus("Rated");                      
-                    valid = true;
+                    order.setRateStatus("Rated");
+                    System.out.println("Rating successfully. Thank you for your feedback !!!");
                 }
-                if(option.equals("2"))
-                {
-                    valid = true;
+                else if (!order.getOrderStatus().equals("Delivered") && order.getRateStatus().equals("Available")){
+                    System.out.println("This Order has not been delivered and not available for Rating.");
                 }
-
+                else{
+                    System.out.println("This Order has already been Rated.");  
+                }
             }
-
+            else if(option.equals("3")){
+                valid = true;
+            }
         }
-        
-        else if (!order.getOrderStatus().equals("Delivered") && order.getRateStatus().equals("Available"))
-        {
-            System.out.println("This Order has not been delivered and not available for Rating!!!!");
-            Input.getInput("Press any key to continue....");
-            
-        }
-        
-        else
-        {
-            System.out.println("This Order has alreay been Rated!!!!");
-            Input.getInput("Press any key to continue....");
-            
-        }
-
         return rating; 
     }
+    
     public static void showRatingOption(){
         System.out.println("Please Select from the following options:");
-        System.out.println("1. Rate Order");
-        System.out.println("2. Go Back");
+        System.out.println("1. View receipt");
+        System.out.println("2. Rate Order");
+        System.out.println("3. Go Back");
     }
 }
 
